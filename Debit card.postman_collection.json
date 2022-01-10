@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "cbb97c58-d2f1-4517-91cb-135ba77508ce",
+		"name": "Debit card",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Сustomer data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"birthday\": \"13\",\r\n\"name\": \"И\",\r\n\"passport\": \"4444 № \",\r\n\"patronymic\": \"И\",\r\n\"phone\": \"+7 (\",\r\n\"surname\": \"И\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://zayavka-na-kartu-3.sdew.ru/save.php",
+					"protocol": "http",
+					"host": [
+						"zayavka-na-kartu-3",
+						"sdew",
+						"ru"
+					],
+					"path": [
+						"save.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New client data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"birthday\": \"22\",\r\n\"name\": \"Tanya\",\r\n\"passport\": \"00 № 0000\",\r\n\"patronymic\": \" \",\r\n\"phone\": \"+7 (999) 5678847\",\r\n\"surname\": \"Pavlova\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://zayavka-na-kartu-3.sdew.ru/save.php",
+					"protocol": "http",
+					"host": [
+						"zayavka-na-kartu-3",
+						"sdew",
+						"ru"
+					],
+					"path": [
+						"save.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

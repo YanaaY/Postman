@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "bfd03a15-3834-41e3-963c-42f712fbbd50",
+		"name": "User Id",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get user id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//задать переменную userId и получить значение из ответа//\r",
+							"try {\r",
+							"    pm.environment.set(\"userId\", pm.response.json().args.userId);\r",
+							"} catch(e) {\r",
+							"    console.log(e);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/get?userId=14",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "14"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//проверить, что значение переменной userid равно значению переменной в ответе//\r",
+							"pm.test(\"userId from env is equal to userId from response\", function () {\r",
+							"    pm.expect(parseInt(pm.environment.get(\"userId\"))).to.equal(\r",
+							"        pm.response.json().data.userId\r",
+							"    );\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": {{userId}}, \"username\": \"Bob\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile validation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// получить профиль из ответа\r",
+							"var profile = pm.response.json().data.profile;\r",
+							"\r",
+							"// описать схему модели\r",
+							"var scheme = {\r",
+							"    // указать тип объекта\r",
+							"    \"type\": \"object\",\r",
+							"    // указать обязательные свойства\r",
+							"    \"required\": [\"userId\", \"username\"],\r",
+							"    // описать свойства\r",
+							"    \"properties\": {\r",
+							"        \"userId\": {\"type\": \"integer\"},\r",
+							"        \"username\": {\"type\": \"string\"},\r",
+							"        \"age\": {\"type\": \"integer\"},\r",
+							"        // описать массив\r",
+							"        \"scores\": {\r",
+							"            \"type\": \"array\",\r",
+							"            // указать тип элементов\r",
+							"            \"items\": {\"type\": \"integer\"}\r",
+							"        },\r",
+							"        // описать вложенный объект\r",
+							"        \"rating\": {\r",
+							"            \"type\": \"object\",\r",
+							"            \"properties\": {\r",
+							"                \"min\": {\"type\": \"integer\"},\r",
+							"                \"max\": {\"type\": \"integer\"}\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"pm.test('Schema is valid', function() {\r",
+							"    // валидация объекта profile с помощью правил из scheme\r",
+							"    var isValidScheme = tv4.validate(profile, scheme, true, true);\r",
+							"\r",
+							"    // ожидание того, что результат валидации true\r",
+							"    pm.expect(isValidScheme).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"profile\" : {\r\n        \"userId\": {{userId}},\r\n        \"username\": \"Bob\",\r\n        \"scores\": [1, 2, 3, 4, 5],\r\n        \"age\": 21,\r\n        \"rating\": {\"min\": 20, \"max\": 100}\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New user id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": {{newUserId}}, \"username\": \"Bob\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleted",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": {{newUserId}}, \"username\": \"Bob\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status is ok, response is json\", function () {",
+					"    pm.response.to.be.ok;",
+					"    pm.response.to.be.json;",
+					"});"
+				]
+			}
+		}
+	]
+}
